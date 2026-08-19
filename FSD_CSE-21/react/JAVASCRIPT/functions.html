@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function abes(a,b){
+        //     return a+b;
+        //     //document.write("<br> hi abes");
+        // }
+        // abes(10,20);
+        // abes(5,15);
+        // abes(2,8);
+
+        //arrow function
+        const abes1=()=> "hello";
+        document.write("<br>"+abes1());
+
+        const calculator=(num1,num2,operator)=>{
+            if(operator=="+"){
+                return num1+num2;
+            }
+            else if(operator=="-"){
+                return num1-num2;
+            }
+            else if(operator=="*"){
+                return num1*num2;
+            }
+            else if(operator=="/"){
+                return num1/num2;
+            }
+        }
+        document.write("<br> sum of 10 and 20 is "+calculator(10,20,"+"));
+    </script>
+</body>
+</html>

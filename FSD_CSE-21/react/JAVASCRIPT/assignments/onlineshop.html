@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 400px;
+        height: 400px;
+        background-color: lightblue;
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        margin-left: 500px;
+    }
+    .box button{
+        padding: 10px 20px;
+        background-color: rgb(236, 141, 8);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+<body>
+    <div class="box">
+        <h1>Online Shop</h1>
+        <p>Welcome to our online shop!</p>
+
+        <p>tea: 50</p>
+        <p>coffee: 100</p>
+        <p>milk: 30</p>
+        <button onclick="buy()">Enter your item</button>
+
+    </div>
+    <script>
+        let item={
+            tea:50,
+            coffee:100, 
+            milk:30
+        }
+      function buy(){
+        let a=prompt("enter your item");
+        let b=prompt("enter your quantity");
+        document.write(a);
+        document.write("<br>Your total bill is: "+item[a]*b);
+      }
+        
+    </script>
+</body>
+</html>
