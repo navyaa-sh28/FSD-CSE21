@@ -102,9 +102,34 @@
         input[type="submit"]:hover{
             background-color: #555;
         }
+        
+        .message{
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+            font-weight: bold;
+        }
+        
+        .message.success{
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .message.error{
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
     </style>
-    <form action="">
+    <form id="bookingForm" onsubmit="handleSubmit(event)">
         <div class="card">
+            <div id="messageBox" class="message"></div>
+            
             <div class="header">
                 <div class="logo">
                     <img src="schoolbus.jpg" alt="Bus Logo">
@@ -115,37 +140,36 @@
             <div class="section">
                 <h3>User Info</h3>
                 <label for="name">UserName:</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" required>
                 
                 <label for="age">User Age:</label>
-                <input type="number" name="age" id="age">
+                <input type="number" name="age" id="age" required>
                 
                 <label for="gender">Gender:</label>
                 <div class="radio-group">
-                    <input type="radio" name="gender" value="male" id="male">Male
+                    <input type="radio" name="gender" value="male" id="male" required>Male
                     <input type="radio" name="gender" value="female" id="female">Female
                 </div>
                 
                 <label for="source">Source City:</label>
-                <input type="text" name="source" id="source">
+                <input type="text" name="source" id="source" required>
                 
                 <label for="destination">Destination City:</label>
-                <input type="text" name="destination" id="destination">
+                <input type="text" name="destination" id="destination" required>
                 
                 <label for="date">Journey Date:</label>
-                <input type="date" name="date" id="date">
+                <input type="date" name="date" id="date" required>
             </div>
             
             <div class="section">
                 <h3>Bus Info</h3>
                 <label>Bus Type:</label>
                 <div class="radio-group">
-                    <input type="radio" name="bustype" value="ac" id="ac">AC Bus - 2000
+                    <input type="radio" name="bustype" value="ac" id="ac" required>AC Bus - 2000
                     <input type="radio" name="bustype" value="nonac" id="nonac">Non-AC Bus - 1500
                 </div>
-                
                 <label for="seat">Select Your Seat (max 5):</label>
-                <input type="number" name="seat" id="seat" min="1" max="5">
+                <input type="number" name="seat" id="seat" min="1" max="5" required>
             </div>
             
             <center>
@@ -153,5 +177,48 @@
             </center>
         </div>
     </form>
+    
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('bookingForm');
+            const messageBox = document.getElementById('messageBox');
+            
+            // Get form data
+            const formData = new FormData(form);
+            const booking = {
+                name: formData.get('name'),
+                age: formData.get('age'),
+                gender: formData.get('gender'),
+                source: formData.get('source'),
+                destination: formData.get('destination'),
+                date: formData.get('date'),
+                bustype: formData.get('bustype'),
+                seat: formData.get('seat')
+            };
+            
+            // Send to backend
+            fetch('http://localhost:3000/api/booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(booking)
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageBox.classList.remove('error');
+                messageBox.classList.add('success');
+                messageBox.textContent = data.message + ' Booking ID: ' + data.bookingId;
+                form.reset();
+            })
+            .catch(error => {
+                messageBox.classList.remove('success');
+                messageBox.classList.add('error');
+                messageBox.textContent = 'Error: ' + error.message;
+            });
+        }
+    </script>
 </body>
 </html>
